@@ -22,7 +22,8 @@ function selectMusic(func) {
   const fileList = songs.files
   for (let i=0; i < fileList.length; i++) {
     let file = fileList.item(i)
-    var path = (window.URL || window.webkitURL).createObjectURL(file)
+    // var path = (window.URL || window.webkitURL).createObjectURL(file)
+    // console.log(path)
     var reader = new FileReader();
     var track, composer, album, year
     reader.onload = function(e) {
@@ -36,18 +37,20 @@ function selectMusic(func) {
       } else {
         console.log('id3 metadata not found')
       }
+      var path = (window.URL || window.webkitURL).createObjectURL(file)
       filedata[i] = {fileName: file.name, location: path, title: track, 
       artist: composer, album: album, year: year}
       func(i)
+      console.log(filedata[i].location)
     };
     reader.readAsArrayBuffer(file);
     //console.log(file.name)
-    console.log(filedata)
+    //console.log(filedata)
   }
   //const arr = Array.from(fileList)
   // Load song initially
 }
-function loadTrackInfo (i) {
+function loadTrackInfo(i) {
   if (i == songIndex) {
     loadSong(filedata[songIndex]);
   }
