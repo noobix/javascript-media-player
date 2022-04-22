@@ -10,6 +10,7 @@ const prev = document.getElementById('prev');
 const play = document.getElementById('play');
 const next = document.getElementById('next');
 const songs = document.getElementById('files')
+const nOfTotalTracks = document.getElementById('total-tracks')
 let songIndex = 0;
 
 songs.onchange = function(e) {
@@ -48,21 +49,24 @@ function selectMusic(func) {
     //console.log(filedata)
   }
   //const arr = Array.from(fileList)
-  // Load song initially
 }
 function loadTrackInfo(i) {
   if (i == songIndex) {
-    loadSong(filedata[songIndex]);
+    // Load song initially
+    loadSong(filedata[songIndex], i);
   }
 }
 
 // Load the given song
-function loadSong(song) {
+function loadSong(song, trackNo) {
+  var nOfTotal = trackNo + 1
+  var total = filedata.length
   // cover.src = null;
   disc.src = song.location;
   title.textContent = song.title;
   artist.textContent = song.artist;
   // duration.textContent = null;
+  nOfTotalTracks.textContent = `${nOfTotal} / ${total}`
 }
 
 // Toggle play and pause
