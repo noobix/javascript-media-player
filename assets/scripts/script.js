@@ -9,24 +9,24 @@ const duration = document.getElementById('duration');
 const prev = document.getElementById('prev');
 const play = document.getElementById('play');
 const next = document.getElementById('next');
-const songs = document.getElementById('files')
-const nOfTotalTracks = document.getElementById('total-tracks')
+const songs = document.getElementById('files');
+const nOfTotalTracks = document.getElementById('total-tracks');
 let songIndex = 0;
 
 songs.onchange = function(e) {
-  selectMusic(loadTrackInfo)
+  selectMusic(loadTrackInfo);
 }
 
 var filedata = []
 
 function selectMusic(func) {
-  const fileList = songs.files
-  for (let i=0; i < fileList.length; i++) {
-    let file = fileList.item(i)
+  const fileList = songs.files;
+  for (let i = 0; i < fileList.length; i++) {
+    let file = fileList.item(i);
     // var path = (window.URL || window.webkitURL).createObjectURL(file)
     // console.log(path)
     var reader = new FileReader();
-    var track, composer, album, year
+    var track, composer, album, year;
     reader.onload = function(e) {
       var dv = new jDataView(this.result);
       // "TAG" starts at byte -128 from EOF.
@@ -36,13 +36,13 @@ function selectMusic(func) {
         album = dv.getString(30, dv.tell());
         year = dv.getString(4, dv.tell());
       } else {
-        console.log('id3 metadata not found')
+        console.log('id3 metadata not found');
       }
       var path = (window.URL || window.webkitURL).createObjectURL(file)
       filedata[i] = {fileName: file.name, location: path, title: track, 
-      artist: composer, album: album, year: year}
-      func(i)
-      console.log(filedata[i].location)
+      artist: composer, album: album, year: year};
+      func(i);
+      console.log(filedata[i].location);
     };
     reader.readAsArrayBuffer(file);
     //console.log(file.name)
@@ -59,14 +59,14 @@ function loadTrackInfo(i) {
 
 // Load the given song
 function loadSong(song, trackNo) {
-  var nOfTotal = trackNo + 1
-  var total = filedata.length
+  var nOfTotal = trackNo + 1;
+  var total = filedata.length;
   // cover.src = null;
   disc.src = song.location;
   title.textContent = song.title;
   artist.textContent = song.artist;
   // duration.textContent = null;
-  nOfTotalTracks.textContent = `${nOfTotal} / ${total}`
+  nOfTotalTracks.textContent = `${nOfTotal} / ${total}`;
 }
 
 // Toggle play and pause
